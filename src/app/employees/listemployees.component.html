@@ -1,0 +1,100 @@
+<div class="employee-count">
+  <h5>Total Employees: {{ totalEmployeesCount }}</h5>
+</div>
+
+<div class="container">
+  <button class="btn btn-primary mb-3" (click)="navigateToAddEmployee()" >
+    Add Employee
+  </button>
+  <input type="text" [(ngModel)]="searchTerm" (input)="filterEmployees()" placeholder="Search..." class="form-control" />
+  <table class="table table-hover" >
+    <thead>
+      <tr>
+        <th scope="col" (click)="sortEmployees('id')">EmployeeId</th>
+        <th scope="col" (click)="sortEmployees('name')">Employee Name</th>
+        <th scope="col" (click)="sortEmployees('designation')">Designation</th>
+        <th scope="col" (click)="sortEmployees('phoneNumber')">Phone Number</th>
+        <th scope="col" (click)="sortEmployees('email')">Email</th>
+        <th scope="col" (click)="sortEmployees('doj')">Date of Joining</th>
+        <th scope="col" (click)="sortEmployees('salary')">Salary</th>
+        <th scope="col" (click)="sortEmployees('gender')">Gender</th>
+        <th scope="col" (click)="sortEmployees('IsActive')">Status</th>
+        <th scope="col">Options</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let employee of filteredEmployees | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+        <td scope="row">{{employee.id}}</td>
+        <td>{{employee.name}}</td>
+        <td>{{employee.designation}}</td>
+        <td>{{employee.phoneNumber}}</td>
+        <td>{{employee.email}}</td>
+        <td>{{employee.doj}}</td>
+        <td>{{employee.salary}}</td>
+        <td>{{employee.gender===null?'UnKnown':(employee.gender ? 'Male':'Female')}}</td>
+        <td>{{employee.IsActive}}</td>       
+        <td>
+          <button class="btn btn-success btn-sm " (click)="openUpdateModal(employee)">
+            <i class="bi bi-pencil">update</i> 
+          </button>
+          <button class="btn btn-danger btn-sm" (click)="deleteEmployee(employee.id)">
+            <i class="bi bi-trash">delete</i> 
+          </button>
+        </td>
+      </tr>
+     
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+</div>
+
+<!-- Modal for updating employee -->
+<div class="modal fade" id="updateEmployeeModal" tabindex="-1" aria-labelledby="updateEmployeeModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateEmployeeModalLabel">Update Employee</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="updateEmployeeForm">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" class="form-control" formControlName="name" />
+          </div>
+          <div class="mb-3">
+            <label for="designation" class="form-label">Designation</label>
+            <input type="text" id="designation" class="form-control" formControlName="designation" />
+          </div>
+          <div class="mb-3">
+            <label for="phoneNumber" class="form-label">phone Number</label>
+            <input type="text" id="phoneNumber" class="form-control" formControlName="phoneNumber" />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" id="email" class="form-control" formControlName="email" />
+          </div>
+          <div class="mb-3">
+            <label for="doj" class="form-label">Date of Joining</label>
+            <input type="text" id="doj" class="form-control" formControlName="doj" />
+          </div>
+          <div class="mb-3">
+            <label for="salary" class="form-label">Salary</label>
+            <input type="text" id="salary" class="form-control" formControlName="salary" />
+          </div>
+          <div class="mb-3">
+            <label for="gender" class="form-label">Gender</label>
+            <input type="text" id="gender" class="form-control" formControlName="gender" />
+          </div>
+        
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="saveUpdatedEmployee()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  

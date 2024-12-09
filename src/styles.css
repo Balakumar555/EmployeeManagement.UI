@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+.toast-top-right {
+    top: 12px;  /* Adjust top position */
+    right: 12px; /* Adjust right position */
+  }
+  .toast-success {
+    background-color: #28a745 !important; /* Green background */
+    color: #fff !important; /* White text */
+    font-weight: bold; /* Bold text */
+  }
+  
+  /* Add padding and margins if needed */
+  .toast {
+    padding: 15px;
+    border-radius: 5px;
+  }

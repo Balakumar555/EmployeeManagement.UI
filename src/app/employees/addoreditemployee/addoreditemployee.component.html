@@ -1,0 +1,72 @@
+<!-- src/app/add-employee/add-employee.component.html -->
+<div class="container">
+    <h2>Add New Employee</h2>
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" class="form-control" formControlName="name" required>
+        <div *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched" class="text-danger">
+          Name is required.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="designation">designation:</label>
+        <input type="text" id="designation" class="form-control" formControlName="designation" required>
+        <div *ngIf="employeeForm.get('designation')?.invalid && employeeForm.get('designation')?.touched" class="text-danger">
+          designation is required.
+        </div>
+      </div>  
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" class="form-control" formControlName="phoneNumber" required>
+        <div *ngIf="employeeForm.get('phoneNumber')?.invalid && employeeForm.get('phoneNumber')?.touched" class="text-danger">
+          phoneNumber is required.
+        </div>
+      </div> 
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="text" id="email" class="form-control" formControlName="email" required>
+        <div *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched" class="text-danger">
+          email is required.
+        </div>
+      </div>
+      <!-- <div class="form-group">
+        <label for="designation">Date of Joining:</label>
+        <input type="text" id="doj" class="form-control" formControlName="doj" required>
+        <div *ngIf="employeeForm.get('doj')?.invalid && employeeForm.get('doj')?.touched" class="text-danger">
+          DOJ is required.
+        </div>
+      </div>   -->
+      <div class="form-group">      
+          <mat-form-field appearance="fill">
+            <mat-label>Date of Joining</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="doj">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>               
+    </div> 
+          
+      <div class="form-group">
+        <label for="salary">Salary:</label>
+        <input type="text" id="salary" class="form-control" formControlName="salary" required>
+        <div *ngIf="employeeForm.get('salary')?.invalid && employeeForm.get('salary')?.touched" class="text-danger">
+          salary is required.
+        </div>
+      </div>  
+      <div class="form-group">
+        <label for="gender">Gender:</label>
+        <select id="gender" class="form-control" formControlName="gender" required>
+            <option value="" disabled selected>Select Gender</option>
+            <option [value]="true">Male</option>
+            <option [value]="false">Female</option>
+                   </select>
+        <div *ngIf="employeeForm.get('gender')?.invalid && employeeForm.get('gender')?.touched" class="text-danger">
+            Gender is required.
+        </div>
+    </div>
+        
+      <button type="submit" class="btn btn-primary" [disabled]="employeeForm.invalid">Add Employee</button>
+    </form>
+  </div>
