@@ -58,15 +58,27 @@
       <div class="form-group">
         <label for="gender">Gender:</label>
         <select id="gender" class="form-control" formControlName="gender" required>
-            <option value="" disabled selected>Select Gender</option>
-            <option [value]="true">Male</option>
-            <option [value]="false">Female</option>
+            <option value="" disabled>Select Gender</option>
+            <option [value]="1">Male</option>
+            <option [value]="2">Female</option>
                    </select>
         <div *ngIf="employeeForm.get('gender')?.invalid && employeeForm.get('gender')?.touched" class="text-danger">
             Gender is required.
         </div>
     </div>
-        
+    <div class="form-group">
+      <label>Graduation</label>
+      <div class="form-control">
+        <label class="radio-inline">
+          <input type="radio" name="graduation" value="btech" [(ngModel)]="graduation" checked>
+          BTech
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="graduation" value="degree" [(ngModel)]="graduation">
+          Degree
+        </label>
+      </div>
+    </div>
       <button type="submit" class="btn btn-primary" [disabled]="employeeForm.invalid">Add Employee</button>
     </form>
   </div>

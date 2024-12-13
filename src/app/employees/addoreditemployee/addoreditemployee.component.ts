@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormBuilder,FormControl,FormControlName,FormGroup,Validators,} from '@angular/forms';
 import { EmployeeService } from '../../services/employee.service';
 import { Employee } from '../../models/employee.model';
 import { Router } from '@angular/router';
@@ -8,9 +8,10 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatNativeDateModule } from '@angular/material/core'; 
+import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-addoreditemployee',
@@ -21,18 +22,20 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDatepickerModule,
     MatInputModule,
     MatFormFieldModule,
-    MatNativeDateModule 
+    MatNativeDateModule,
+    FormsModule
   ],
   templateUrl: './addoreditemployee.component.html',
   styleUrls: ['./addoreditemployee.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddoreditemployeeComponent {
- 
+
   employeeForm: FormGroup;
+  graduation='BTech';
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private employeeService: EmployeeService,
     private router: Router,
     private toaster: ToastrService
@@ -60,7 +63,7 @@ export class AddoreditemployeeComponent {
         email: formValue.email,
         doj: formValue.doj,
         salary: formValue.salary,
-        gender: formValue.gender === true,
+        gender: formValue.gender == '1' ? true : false,
         id: 0,
         createdBy: undefined,
         createdOn: undefined,
@@ -73,19 +76,27 @@ export class AddoreditemployeeComponent {
 
       // Send the newEmployee object directly
       this.employeeService.createOrUpdateEmployee(newEmployee).subscribe(
-        response => {
-          console.log('Employee added successfully', response); 
-          this.toaster.success('New Employee added successfully!', 'Success', { timeOut: 5000 });       
+        (response) => {
+          console.log('Employee added successfully', response);
+          this.toaster.success('New Employee added successfully!', 'Success', {
+            timeOut: 5000,
+          });
           this.employeeForm.reset(); // Reset the form
-          this.router.navigate(['/list']);        
-        }, 
-        error => {
+          this.router.navigate(['/list']);
+        },
+        (error) => {
           console.error('Error adding employee', error);
-          this.toaster.error('Error adding employee. Please try again.', 'Error');
+          this.toaster.error(
+            'Error adding employee. Please try again.',
+            'Error'
+          );
         }
       );
     } else {
-      this.toaster.error('Please fill in all required fields correctly.', 'Validation Error');
+      this.toaster.error(
+        'Please fill in all required fields correctly.',
+        'Validation Error'
+      );
     }
   }
 }

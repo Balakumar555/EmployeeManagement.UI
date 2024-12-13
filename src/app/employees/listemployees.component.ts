@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../models/employee.model';
@@ -7,13 +7,21 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import * as xls from 'xlsx'
+import { ChangeDetectionStrategy } from '@angular/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+
+
 
 declare const bootstrap: any; // Declare Bootstrap to avoid TypeScript errors
 
 @Component({
   selector: 'app-listemployees',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, ReactiveFormsModule, FormsModule, NgxPaginationModule],
+  imports: [CommonModule, HttpClientModule, ReactiveFormsModule, FormsModule, NgxPaginationModule,MatDatepickerModule,MatInputModule,MatFormFieldModule,MatNativeDateModule],
   templateUrl: './listemployees.component.html',
   styleUrls: ['./listemployees.component.css'],
 })
@@ -26,6 +34,8 @@ export class ListemployeesComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 5; 
   totalEmployeesCount: number = 0;
+  @ViewChild("table")
+  table!: ElementRef;
 
   constructor(
     private employeeService: EmployeeService,
@@ -145,4 +155,25 @@ export class ListemployeesComponent implements OnInit {
     const modal = bootstrap.Modal.getInstance(modalElement!);
     modal.hide();
   }
+
+  async convertExcel() {
+    try {
+        // Fetch all records from the employee service
+        const allRecords: any = await this.employeeService.getEmployees().toPromise(); // Assuming getEmployees returns an Observable
+
+        // Convert JSON data to a worksheet
+        const worksheet = xls.utils.json_to_sheet(allRecords);
+
+        // Create a new workbook
+        const workbook = xls.utils.book_new();
+
+        // Append the worksheet to the workbook
+        xls.utils.book_append_sheet(workbook, worksheet, 'Employees');
+
+        // Write the workbook to a file
+        xls.writeFile(workbook, 'ListEmployees.xlsx');
+    } catch (error) {
+        console.error('Error exporting to Excel:', error);
+    }
+}
 }

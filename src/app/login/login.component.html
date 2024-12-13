@@ -1,0 +1,53 @@
+<div class="auth-wrapper">
+    <div class="auth-content text-center">
+      <img src="assets/images/logo.png" alt="" class="img-fluid mb-4">
+      <form id="formAuthentication" class="mb-3" #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+        <div class="card borderless">
+          <div class="row align-items-center ">
+            <div class="col-md-12">
+              <div class="card-body">
+                <h4 class="mb-3 f-w-400">Signin</h4>
+                <hr />
+                <div class="form-group mb-4">
+                  <label for="username" class="form-label text-left" style="float: left">Username</label>
+                  <div class="input-group">
+                    <div class="input-group-append">
+                      <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username" placeholder="email/phone" autofocus required />
+                  </div>
+                </div>
+                <div class="form-row mb-4">
+                  <label for="password" class="form-label">Password</label>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      [(ngModel)]="password"
+                      name="password"
+                      placeholder="*****"
+                      required
+                    />
+                    <div class="input-group-append" style="border-right:1px solid #afb4ba;">
+                      <span class="input-group-text toggle-password" togglePassword>
+                        <i class="fa fa-eye-slash"></i> <!-- This will change based on the state -->
+                      </span>
+                    </div>
+                  </div>
+                </div>             
+                             
+                <div class="custom-control custom-checkbox text-left mb-4 mt-2">
+                  <input type="checkbox" class="custom-control-input" id="customCheck1">
+                  <label class="custom-control-label" for="customCheck1">Save credentials.</label>
+                </div>
+                <button class="btn btn-block btn-primary mb-4" type="submit">Signin</button>
+                <p class="mb-2 text-muted">Forgot password? <a href="auth-reset-password.html" class="f-w-400">Reset</a></p>
+                <p class="mb-0 text-muted">Don’t have an account? <a href="auth-signup.html" class="f-w-400">Signup</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div> 
